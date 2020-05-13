@@ -10,10 +10,10 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValueController: ControllerBase
+    public class ValuesController: ControllerBase
     {
         public readonly DataContext _context;
-        public ValueController(DataContext context)
+        public ValuesController(DataContext context)
         {
             _context = context;
         }
@@ -23,7 +23,11 @@ namespace API.Controllers
             var values = await _context.Values.ToListAsync();
             return Ok(values);
         }
-
+        [HttpPost]
+        public ActionResult<string> Create () {
+           
+            return Ok("anbc");
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<Value>> Get (int id) {
             var value = await _context.Values.FindAsync(id);

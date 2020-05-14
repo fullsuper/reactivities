@@ -6,7 +6,8 @@ using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers {
+namespace API.Controllers
+{
     [Route ("api/[Controller]")]
     [ApiController]
     public class ActivitiesController : ControllerBase {
@@ -22,7 +23,18 @@ namespace API.Controllers {
         public async Task<Activity> Details(Guid id) => await _mediator.Send(new Details.Query(id));
 
         [HttpPost]
-        [Route("hello")]
         public async Task<ActionResult<Unit>> Create(Create.Command command) => await _mediator.Send(command);
+        
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command) 
+        {
+            command.Id = id;
+            return await _mediator.Send(command);
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> Detele(Guid id) 
+        {
+            return await _mediator.Send(new Delete.Command{Id = id});
+        }
     }
 }
